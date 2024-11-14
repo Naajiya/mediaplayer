@@ -31,3 +31,17 @@ export const getHistory =async(video)=>{
 export const deleteHistory = async(videoId)=>{
     return await commonAPI("DELETE",`${SERVER_URL}/history/${videoId}`,{})
 }
+
+export const saveCategory =async(catergoryDetails)=>{
+    return await commonAPI("POST",`${SERVER_URL}/allcategory`,catergoryDetails)
+}
+
+// get all catogory
+export const getCategory =async()=>{
+    return await commonAPI("GET",`${SERVER_URL}/allcategory`,"")
+}
+
+// delete catogory
+export const deleteCategory = async(videoId)=>{
+    return await commonAPI("DELETE",`${SERVER_URL}/allcategory/${videoId}`,{})
+}
