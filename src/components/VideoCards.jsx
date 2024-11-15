@@ -62,9 +62,16 @@ function VideoCards({ displayData, setDeleteCard }) {
   }
 
 
+  const dragStarted=(e,videId)=>{
+    console.log(`drag started with video id : ${videId}`);
+    e.dataTransfer.setData("videoId",videId)
+    // 
+  }
+
+
   return (
     <>
-      <Card className='m-2' style={{ width: '13rem', height: '300px' }}>
+      <Card draggable={true} onDragStart={(e)=>dragStarted(e,displayData.id)} className='m-2' style={{ width: '13rem', height: '300px' }}>
         <Card.Img onClick={handleShow} style={{ height: '220px', padding: '3%' }} variant="top" src={displayData?.imageUrl} />
         <Card.Body>
           <Card.Title className='d-flex align-items-center justify-content-between'>

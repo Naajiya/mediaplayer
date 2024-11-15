@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { deleteCategory, getCategory, saveCategory } from '../services/allAPI'
+import { deleteCategory, getCategory, getSingleVideo, saveCategory, updateVideo } from '../services/allAPI'
 
 
 function Category() {
@@ -46,6 +46,8 @@ function Category() {
     }
   }
 
+  // get categoryname
+
   const getAllCategor = async () => {
     try {
       const result = await getCategory()
@@ -69,10 +71,36 @@ function Category() {
   }
 
 
+  // when dropp
+  const videoDropped=async(e,categoryId)=>{
+    console.log(`category id : ${categoryId}`);
+    const videoId=e.dataTransfer.getData("videoId")
+    console.log(`drag startedw with id : ${videoId} and dropped in category id :${categoryId}`)
+
+    // access dropped video details
+    const {data}=await getSingleVideo(videoId)
+    console.log(data)
+
+    // push to allviedeos (dropped video)
+    // find category from allcategory
+    const selectedCategory = allCategory.find(f=>f.id==categoryId)
+    selectedCategory.allVideos.push(data)
+    console.log(selectedCategory)
+
+    await updateVideo(categoryId,selectedCategory)
+    getCategory()
+  }
+
+  // to prevent refresh
+  const dragOverStart=(e)=>{
+    e.preventDefault()
+    
+  }
+
 
   return (
     <>
-      <div className='container border border-light'>
+      <div className='container border border-warning p-3'>
         <div className='d-flex'>
           <h3>Category</h3>
           <button onClick={handleShow} className='btn btn-info m-1' style={{ height: '40px' }}><i class="fa-solid fa-plus" style={{ color: 'white', height: '10px' }}></i></button>
@@ -82,10 +110,11 @@ function Category() {
           {
             allCategory.length>0?
             allCategory?.map((item)=>(
-              <div className='border border-3 border-light mb-3 d-flex justify-content-between p-3'>
+              <div droppable={true} onDrop={(e)=>videoDropped(e, item.id)} onDragOver={(e)=>dragOverStart(e)} className='border border-3 border-light mb-3 d-flex justify-content-between p-3'>
                 <h5>{item?.categoryName}</h5>
                 <button onClick={()=>delcategr(item?.id)} className='btn'><i className="fa-solid fa-trash" style={{color: "#c61906",fontSize:"20px"}} /></button>
               </div>
+              
             ))
             :
             <div className='text-danger'>No Category added</div>
@@ -95,7 +124,7 @@ function Category() {
           <Modal
             show={show}
             onHide={handleClose}
-            backdrop="static"
+            backdrop="static"j
             keyboard={false}
           >
             <Modal.Header closeButton>

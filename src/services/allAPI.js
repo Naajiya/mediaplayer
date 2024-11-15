@@ -1,5 +1,6 @@
 //  to call all api call
 
+import Category from "../components/Category"
 import commonAPI from "./commonAPI"
 import SERVER_URL from "./server_url"
 
@@ -45,3 +46,15 @@ export const getCategory =async()=>{
 export const deleteCategory = async(videoId)=>{
     return await commonAPI("DELETE",`${SERVER_URL}/allcategory/${videoId}`,{})
 }
+
+// get a single video
+ export const getSingleVideo=async(videoId)=>{
+    return await commonAPI("GET",`${SERVER_URL}/allVideos/${videoId}`,{})
+ }
+
+
+//  get call for updating category
+
+ export const updateVideo = async (CategoryId,catergoryDetails)=>{
+    return await commonAPI ("PUT", `${SERVER_URL}/allcategory/${CategoryId}`,catergoryDetails)
+ }
