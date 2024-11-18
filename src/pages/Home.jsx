@@ -10,6 +10,7 @@ import Category from '../components/Category'
 function Home() {
 
   const [addVideoResponse, setAddVideoResponse]=useState('')
+  const [dltVideo,setdltVideo]=useState("")
 
 
   return (
@@ -22,10 +23,10 @@ function Home() {
 
       <div className="row container-fluid my-5">
         <div className="col-lg-6">
-          <View addVideoResponse={addVideoResponse}/>
+          <View addVideoResponse={addVideoResponse} dltVideo={dltVideo}/>
         </div>
         <div className="col-lg-6">
-          <Category />
+          <Category setdltVideo={setdltVideo} />
         </div>
       </div>
     </>

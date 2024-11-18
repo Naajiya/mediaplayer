@@ -15,7 +15,7 @@ const commonAPI = async (httpmethod, url, reqbody) => {
     //return to axios(where we can call)
 
     return await axios(reqConfig).then(res => {
-        return res
+        return res  
     }).catch(err => {
         return err
     })

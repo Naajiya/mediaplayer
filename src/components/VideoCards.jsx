@@ -9,7 +9,7 @@ import { deleteVideo, saveHistory } from '../services/allAPI';
 
 
 
-function VideoCards({ displayData, setDeleteCard }) {
+function VideoCards({ displayData, setDeleteCard,insideCategory }) {
   console.log(displayData);
 
 
@@ -76,7 +76,11 @@ function VideoCards({ displayData, setDeleteCard }) {
         <Card.Body>
           <Card.Title className='d-flex align-items-center justify-content-between'>
             <p>{displayData?.caption}</p>
-            <button onClick={() => handleRemoveVideo(displayData?.id)} className='btn'><i class="fa-solid fa-trash" style={{ color: 'orange', backgroundColor: 'black' }}></i></button>
+            {/* dlt delete btn from cate */}
+           { !insideCategory &&
+                      <button onClick={() => handleRemoveVideo(displayData?.id)} className='btn'><i class="fa-solid fa-trash" style={{ color: 'orange', backgroundColor: 'black' }}></i></button>
+
+           }
           </Card.Title>
 
         </Card.Body>

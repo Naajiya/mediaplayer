@@ -4,12 +4,11 @@ import VideoCards from './VideoCards'
 import { getAllVideos } from '../services/allAPI'
 
 
-function View({addVideoResponse}) {
+function View({addVideoResponse,dltVideo}) {
 
   const [allVideos, setAllVideos] = useState([])
   const [countVideo, setCount] = useState(0)
 
-  // 
   const [deleteCard, setDeleteCard]=useState('')
 
   useEffect(() => {
@@ -17,7 +16,7 @@ function View({addVideoResponse}) {
 
     console.log(getAllVideo)
 
-  }, [addVideoResponse,deleteCard])
+  }, [addVideoResponse,deleteCard,dltVideo])
 
   console.log(allVideos)
   console.log(countVideo)

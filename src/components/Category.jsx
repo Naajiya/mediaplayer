@@ -5,17 +5,19 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { deleteCategory, getCategory, getSingleVideo, saveCategory, updateVideo } from '../services/allAPI'
+import { deleteCategory, deleteVideo, getCategory, getSingleVideo, saveCategory, updateVideo } from '../services/allAPI'
+import VideoCards from './VideoCards'
 
 
-function Category() {
+
+function Category({ setdltVideo }) {
 
   const [show, setShow] = useState(false);
   const [categoryName, setCategoryName] = useState("")
   const [allCategory, setAllCategory] = useState([])
   console.log(categoryName);
   console.log(allCategory);
-  
+
 
 
 
@@ -23,9 +25,9 @@ function Category() {
   const handleShow = () => setShow(true);
 
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllCategor()
-  },[])
+  }, [allCategory])
 
   const handleAddCategory = async () => {
     if (categoryName) {
@@ -59,42 +61,51 @@ function Category() {
   }
 
 
-  const delcategr=async(id)=>{
-    try{
+  const delcategr = async (id) => {
+    try {
       await deleteCategory(id)
-    getAllCategor()
-    toast.warning("You have deleted a category list ")
-    }catch(err){
+      getAllCategor()
+      toast.warning("You have deleted a category list ")
+    } catch (err) {
       console.log(err);
-      
+
     }
   }
 
 
   // when dropp
-  const videoDropped=async(e,categoryId)=>{
+  const videoDropped = async (e, categoryId) => {
     console.log(`category id : ${categoryId}`);
-    const videoId=e.dataTransfer.getData("videoId")
+    const videoId = e.dataTransfer.getData("videoId")
     console.log(`drag startedw with id : ${videoId} and dropped in category id :${categoryId}`)
 
     // access dropped video details
-    const {data}=await getSingleVideo(videoId)
+    const { data } = await getSingleVideo(videoId)
     console.log(data)
 
     // push to allviedeos (dropped video)
     // find category from allcategory
-    const selectedCategory = allCategory.find(f=>f.id==categoryId)
+    const selectedCategory = allCategory.find(f => f.id == categoryId)
     selectedCategory.allVideos.push(data)
     console.log(selectedCategory)
 
-    await updateVideo(categoryId,selectedCategory)
+    await updateVideo(categoryId, selectedCategory)
     getCategory()
+
+
+    const result = await deleteVideo(videoId)
+    setdltVideo(result.data)
   }
 
   // to prevent refresh
-  const dragOverStart=(e)=>{
+  const dragOverStart = (e) => {
     e.preventDefault()
-    
+
+  }
+
+  const dragStarted = (e, videoDetails, categoryId) => {
+    const sharedData = { videoDetails, categoryId }
+    console.log(sharedData)
   }
 
 
@@ -108,23 +119,35 @@ function Category() {
         </div>
         <div className='container-fluid mt-3'>
           {
-            allCategory.length>0?
-            allCategory?.map((item)=>(
-              <div droppable={true} onDrop={(e)=>videoDropped(e, item.id)} onDragOver={(e)=>dragOverStart(e)} className='border border-3 border-light mb-3 d-flex justify-content-between p-3'>
-                <h5>{item?.categoryName}</h5>
-                <button onClick={()=>delcategr(item?.id)} className='btn'><i className="fa-solid fa-trash" style={{color: "#c61906",fontSize:"20px"}} /></button>
-              </div>
-              
-            ))
-            :
-            <div className='text-danger'>No Category added</div>
+            allCategory.length > 0 ?
+              allCategory?.map((item) => (
+                <div droppable={true} onDrop={(e) => videoDropped(e, item.id)} onDragOver={(e) => dragOverStart(e)} className='border border-3 border-light mb-3 d-flex justify-content-between p-3'>
+                  <div className='d-flex justify-content-between'>
+                    <h5>{item?.categoryName}</h5>
+                    <button onClick={() => delcategr(item?.id)} className='btn'><i className="fa-solid fa-trash" style={{ color: "#c61906", fontSize: "20px" }} /></button>
+
+                  </div>
+                  <div className='row mt-3'>
+                    {
+                      item.allVideos.length > 0 &&
+                      item.allVideos.map(video => (
+                        <div className='' onDragStart={(e) => dragStarted(e, video, item.id)} onDragOver={(e) => dragOverStart(e)} draggable={true}>
+                          <VideoCards displayData={video} insideCategory={true} />
+                        </div>
+                      ))
+                    }
+                  </div>
+                </div>
+              ))
+              :
+              <div className='text-danger'>No Category added</div>
           }
         </div>
         <div>
           <Modal
             show={show}
             onHide={handleClose}
-            backdrop="static"j
+            backdrop="static" j
             keyboard={false}
           >
             <Modal.Header closeButton>
