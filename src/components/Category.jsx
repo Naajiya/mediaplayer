@@ -15,8 +15,8 @@ function Category({ setdltVideo }) {
   const [show, setShow] = useState(false);
   const [categoryName, setCategoryName] = useState("")
   const [allCategory, setAllCategory] = useState([])
-  console.log(categoryName);
-  console.log(allCategory);
+  // console.log(categoryName);
+  // console.log(allCategory);
 
 
 
@@ -37,6 +37,7 @@ function Category({ setdltVideo }) {
         console.log(result);
         getAllCategor()
         toast.success("New Category list added")
+        setCategoryName('')
         handleClose()
 
       } catch (err) {
@@ -106,8 +107,9 @@ function Category({ setdltVideo }) {
   const dragStarted = (e, videoDetails, categoryId) => {
     const sharedData = { videoDetails, categoryId }
     console.log(sharedData)
+    e.dataTransfer.setData("sharedData",JSON.stringify(sharedData))
   }
-
+// json.strigify = used to convert object ot string
 
   return (
     <>
@@ -121,8 +123,8 @@ function Category({ setdltVideo }) {
           {
             allCategory.length > 0 ?
               allCategory?.map((item) => (
-                <div droppable={true} onDrop={(e) => videoDropped(e, item.id)} onDragOver={(e) => dragOverStart(e)} className='border border-3 border-light mb-3 d-flex justify-content-between p-3'>
-                  <div className='d-flex justify-content-between'>
+                <div droppable={true} onDrop={(e) => videoDropped(e, item.id)} onDragOver={(e) => dragOverStart(e)} className='border border-3 border-light mb-3 d-flex  p-3'>
+                  <div className='d-flex  justify-content-between'>
                     <h5>{item?.categoryName}</h5>
                     <button onClick={() => delcategr(item?.id)} className='btn'><i className="fa-solid fa-trash" style={{ color: "#c61906", fontSize: "20px" }} /></button>
 

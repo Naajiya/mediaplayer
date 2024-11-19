@@ -58,3 +58,8 @@ export const deleteCategory = async(videoId)=>{
  export const updateVideo = async (CategoryId,catergoryDetails)=>{
     return await commonAPI ("PUT", `${SERVER_URL}/allcategory/${CategoryId}`,catergoryDetails)
  }
+
+//  api call for getting single category
+export const getSingleCategory=async(CategoryId)=>{
+    return await commonAPI("GET",`${SERVER_URL}/allcategory/${CategoryId}`,{})
+ }

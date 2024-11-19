@@ -9,7 +9,7 @@ import { addVideo } from '../services/allAPI';
 
 
 
-function Add({setAddVideoResponse}) {
+function Add({ setAddVideoResponse }) {
   // array drawback - accessing troubility
   const [videodatails, setVideoDetails] = useState({ caption: '', imageUrl: '', utubUrl: '' })
   const [show, setShow] = useState(false);
@@ -33,28 +33,29 @@ function Add({setAddVideoResponse}) {
   }
 
 
-// run time error handle - try catch
-  const handleUpload =async () => {
+  // run time error handle - try catch
+  const handleUpload = async () => {
     const { caption, imageUrl, utubUrl } = videodatails
 
     if (caption && imageUrl && utubUrl) {
 
-     try{
+      try {
 
-      const result = await addVideo(videodatails)
-      console.log(result);
-      
-// update function it come from home.js its a state updating function
-      setAddVideoResponse(result.data)
+        const result = await addVideo(videodatails)
+        console.log(result);
 
-      toast.success(`${result.data.caption} is added to your collection`)
-      handleClose()
+        // update function it come from home.js its a state updating function
+        setAddVideoResponse(result.data)
 
-     }catch(err){
+        toast.success(`${result.data.caption} is added to your collection`)
+        handleClose()
+        setVideoDetails({ caption: '', imageUrl: '', utubUrl: ''})
 
-      console.log(err);
-      
-     }
+      } catch (err) {
+
+        console.log(err);
+
+      }
     } else {
       // alert('fill input fields')
       toast.warning('fill input fields')
@@ -123,12 +124,7 @@ function Add({setAddVideoResponse}) {
           </Modal.Footer>
         </Modal>
 
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          theme="light"
 
-        />
 
       </div>
     </>

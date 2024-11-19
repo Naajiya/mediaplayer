@@ -10,7 +10,7 @@ import { deleteVideo, saveHistory } from '../services/allAPI';
 
 
 function VideoCards({ displayData, setDeleteCard,insideCategory }) {
-  console.log(displayData);
+  // console.log(displayData);
 
 
   const [show, setShow] = useState(false);

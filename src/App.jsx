@@ -7,7 +7,8 @@ import History from './pages/History'
 import { Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 function App() {
@@ -15,6 +16,13 @@ function App() {
 
   return (
     <>
+
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        theme="light"
+
+      />
       <Header />
 
       <Routes>

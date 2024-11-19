@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import VideoCards from './VideoCards'
-import { getAllVideos } from '../services/allAPI'
+import { addVideo, getAllVideos, getSingleCategory, updateVideo } from '../services/allAPI'
+
 
 
 function View({addVideoResponse,dltVideo}) {
@@ -56,11 +57,44 @@ function View({addVideoResponse,dltVideo}) {
     }
   }
 
+  const dragOverView=(e)=>{
+    e.preventDefault()
+  }
+
+
+  const handleCategory=async(e)=>{
+    const {videoDetails, categoryId}=JSON.parse(e.dataTransfer.getData("sharedData"))
+
+    console.log(videoDetails, categoryId);
+
+    try{
+      const {data}=await getSingleCategory(categoryId)
+      console.log(data)
+
+      const selectedVideodDetails = data.allVideos.filter(video=>video.id!=videoDetails.id)
+      console.log(selectedVideodDetails)
+
+      const {id,categoryName}=data
+      const categoryResult= await updateVideo(categoryId,{id,categoryName,allVideos:selectedVideodDetails})
+
+
+      await addVideo(videoDetails)
+      getAllVideo()
+
+
+
+    }catch(er){
+      console.log(er)
+    }
+
+
+  }
+// json.parse = convert string to object
 
   // optional chaning operator ?.
   return (
     <>
-      <Row className='m-3 border border-info '>
+      <Row className='m-3 border border-info' droppable={true} onDrop={(e) => handleCategory(e)} onDragOver={(e) => dragOverView(e)}>
         {
           allVideos.length > 0
           
