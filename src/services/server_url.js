@@ -1,5 +1,5 @@
 // store url
 
-const SERVER_URL="http://localhost:3000"
+const SERVER_URL="https://mpserver-tivq.onrender.com"
 
 export default SERVER_URL

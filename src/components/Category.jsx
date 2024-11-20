@@ -10,7 +10,7 @@ import VideoCards from './VideoCards'
 
 
 
-function Category({ setdltVideo }) {
+function Category({ setdltVideo,deleteVideofromCategory }) {
 
   const [show, setShow] = useState(false);
   const [categoryName, setCategoryName] = useState("")
@@ -27,7 +27,7 @@ function Category({ setdltVideo }) {
 
   useEffect(() => {
     getAllCategor()
-  }, [allCategory])
+  }, [deleteVideofromCategory])
 
   const handleAddCategory = async () => {
     if (categoryName) {
@@ -91,11 +91,12 @@ function Category({ setdltVideo }) {
     console.log(selectedCategory)
 
     await updateVideo(categoryId, selectedCategory)
-    getCategory()
+    getAllCategor()
 
 
     const result = await deleteVideo(videoId)
     setdltVideo(result.data)
+    
   }
 
   // to prevent refresh

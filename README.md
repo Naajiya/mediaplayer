@@ -17,3 +17,10 @@ Currently, two official plugins are available:
         -react app must be render inside <BrowserRouter> -main.jsx
         -components needs to setup path must inside <Routes> component of react router dom in app.jsx 
         -use route component to define each component path
+
+
+how to deplot
+1.create index.js file in server folder
+2.update script in package.json file as "start":"node index.js"
+3.create .gitignore file and add 'node_modules' folder
+4.define josn server to run run json file in index.js

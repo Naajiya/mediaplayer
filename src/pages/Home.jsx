@@ -11,6 +11,7 @@ function Home() {
 
   const [addVideoResponse, setAddVideoResponse]=useState('')
   const [dltVideo,setdltVideo]=useState("")
+  const [deleteVideofromCategory,setdeleteVideofromCategory]=useState('')
   
 
 
@@ -24,10 +25,10 @@ function Home() {
 
       <div className="row container-fluid my-5">
         <div className="col-lg-6">
-          <View addVideoResponse={addVideoResponse} dltVideo={dltVideo}/>
+          <View addVideoResponse={addVideoResponse} dltVideo={dltVideo} setdeleteVideofromCategory={setdeleteVideofromCategory}/>
         </div>
         <div className="col-lg-6">
-          <Category setdltVideo={setdltVideo} />
+          <Category setdltVideo={setdltVideo} deleteVideofromCategory={deleteVideofromCategory}/>
         </div>
       </div>
     </>

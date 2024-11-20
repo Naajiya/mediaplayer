@@ -5,7 +5,7 @@ import { addVideo, getAllVideos, getSingleCategory, updateVideo } from '../servi
 
 
 
-function View({addVideoResponse,dltVideo}) {
+function View({addVideoResponse,dltVideo,setdeleteVideofromCategory}) {
 
   const [allVideos, setAllVideos] = useState([])
   const [countVideo, setCount] = useState(0)
@@ -76,7 +76,7 @@ function View({addVideoResponse,dltVideo}) {
 
       const {id,categoryName}=data
       const categoryResult= await updateVideo(categoryId,{id,categoryName,allVideos:selectedVideodDetails})
-
+      setdeleteVideofromCategory(categoryResult.data)
 
       await addVideo(videoDetails)
       getAllVideo()
